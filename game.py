@@ -3,7 +3,7 @@ import random
 from setting import *
 from gem import Gem
 from background import BackGround
-from board import Board
+from puzzle import Puzzle
 from animation import Explosion
 
 
@@ -11,16 +11,16 @@ class Game:
     def __init__(self):
         print("Game init")
         self.run = True
-        self.background = BackGround("Image/background.png", 0, 0)
-        self.board = Board()
+        self.background = BackGround("Image/background.png")
+        self.puzzle = Puzzle()
 
     def update(self):
-        self.board.update()
+        self.puzzle.update()
         pass
 
     def draw(self, surface):
         self.background.draw(surface)
-        self.board.draw(surface)
+        self.puzzle.draw(surface)
 
 
     def draw_text(self, surface, text, size, color, bold, x, y):
