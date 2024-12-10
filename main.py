@@ -20,18 +20,11 @@ running = True
 
 while running:
     # Checking for events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-            running = False
-
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            game.select_gem(event.pos)
-        elif event.type == pygame.MOUSEBUTTONUP:
-            game.selected_gem = None
-        elif event.type == pygame.MOUSEMOTION and game.selected_gem:
-            game.drag_gem(event.pos)
+    # 這裡要改成peek，不然會跟主邏輯衝突
+    if pygame.event.peek(pygame.QUIT):
+        pygame.quit()
+        sys.exit()
+        running = False
 
     # Update
     if game.run:

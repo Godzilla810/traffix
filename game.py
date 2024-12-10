@@ -3,6 +3,7 @@ import random
 from setting import *
 from gem import Gem
 from background import BackGround
+from board import Board
 from animation import Explosion
 
 
@@ -11,34 +12,15 @@ class Game:
         print("Game init")
         self.run = True
         self.background = BackGround("Image/background.png", 0, 0)
-        self.selected_gem = None
-        self.gem_group = pygame.sprite.Group()
-        for i in range(ROW):
-            for j in range(COLUMN):
-                gem = Gem(i * SPACE + OFFSET, j * SPACE + OFFSET, random.choice(COLOR_LIST))
-                self.gem_group.add(gem)
+        self.board = Board()
 
     def update(self):
-        self.gem_group.update()
-        if (self.selected_gem != None):
-            print(self.selected_gem.color_name)
+        self.board.update()
         pass
-
-    def select_gem(self, pos):
-        for gem in self.gem_group:
-            if gem.rect.collidepoint(pos):
-                self.selected_gem = gem
-                Gem.vacant_x = gem.x
-                Gem.vacant_y = gem.y
-                break
-
-    def drag_gem(self, pos):
-        self.selected_gem.rect.center = pos
-
 
     def draw(self, surface):
         self.background.draw(surface)
-        self.gem_group.draw(surface)
+        self.board.draw(surface)
 
 
     def draw_text(self, surface, text, size, color, bold, x, y):
@@ -56,7 +38,6 @@ class Game:
 
 
     def game_over(self):
-        # (3)---self.run、self.wait的狀態改變---
         self.run = False
         self.wait = True
         pass
