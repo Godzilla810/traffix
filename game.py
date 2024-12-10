@@ -3,6 +3,7 @@ import random
 from setting import *
 from gem import Gem
 from background import BackGround
+from board import Board
 from animation import Explosion
 
 
@@ -13,6 +14,7 @@ class Game:
         self.background = BackGround("Image/background.png", 0, 0)
         self.selected_gem = None
         self.gem_group = pygame.sprite.Group()
+        self.board = Board(ROW, COLUMN)
         for i in range(ROW):
             for j in range(COLUMN):
                 gem = Gem(i * SPACE + OFFSET, j * SPACE + OFFSET, random.choice(COLOR_LIST))
