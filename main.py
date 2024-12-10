@@ -26,9 +26,12 @@ while running:
             sys.exit()
             running = False
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_r] and game.run == False:
-            game.reset()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            game.select_gem(event.pos)
+        elif event.type == pygame.MOUSEBUTTONUP:
+            game.selected_gem = None
+        elif event.type == pygame.MOUSEMOTION and game.selected_gem:
+            game.drag_gem(event.pos)
 
     # Update
     if game.run:
