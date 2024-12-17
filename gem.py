@@ -11,13 +11,16 @@ class Gem(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (GEM_SIZE, GEM_SIZE))
         self.set_rect()
         
+    # 更新位置
     def set_rect(self):
         self.rect = self.image.get_rect(center=(GRID_SIZE / 2 + self.row * GRID_SIZE, 
                                                 GRID_SIZE / 2 +  PUZZLE_HEIGHT_Y + self.col * GRID_SIZE))
 
+    # 判斷是否在上下左右
     def is_adjacent(self, target: 'Gem'):
         return abs(self.row - target.row) + abs(self.col - target.col) == 1
     
+    # 交換位置
     def swap(self, target : 'Gem'):
         self.row, target.row = target.row, self.row
         self.col, target.col = target.col, self.col

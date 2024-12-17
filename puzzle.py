@@ -4,6 +4,7 @@ from setting import *
 from gem import Gem
 from board import Board
 
+# 處理轉珠邏輯
 class Puzzle():
     def __init__(self):
         self.board = Board()
@@ -13,6 +14,7 @@ class Puzzle():
         self.initialize_grid()
 
     def update(self):
+        # 更新遊戲盤
         self.gem_group.update()
         self.check_input()
 
@@ -93,12 +95,14 @@ class Puzzle():
                 self.process_matches()
 
     def select_gem(self, pos):
+        # 選擇珠子
         for gem in self.gem_group:
             if gem.rect.collidepoint(pos):
                 self.selected_gem = gem
                 break
 
     def drag_gem(self, pos):
+        # 拖曳珠子
         self.selected_gem.rect.center = pos
         for gem in self.gem_group:
             if gem != self.selected_gem and gem.rect.collidepoint(pos) and self.selected_gem.is_adjacent(gem):
@@ -107,10 +111,12 @@ class Puzzle():
                 break
 
     def release_gem(self):
+        # 釋放珠子
         self.selected_gem.set_rect()
         self.selected_gem = None
 
     
     def draw(self, screen):
+        # 繪製遊戲盤格
         self.board.draw(screen)
         self.gem_group.draw(screen)

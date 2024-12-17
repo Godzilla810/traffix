@@ -1,10 +1,7 @@
 import pygame
-import random
 from setting import *
-from gem import Gem
 from background import BackGround
 from puzzle import Puzzle
-from animation import Explosion
 
 
 class Game:
@@ -22,7 +19,7 @@ class Game:
         self.background.draw(surface)
         self.puzzle.draw(surface)
 
-
+    # 畫文字
     def draw_text(self, surface, text, size, color, bold, x, y):
         font = pygame.font.Font("Font/BoutiqueBitmap9x9_Bold_1.9.ttf", size=size)
         text_surface = font.render(text, bold, color)
@@ -31,6 +28,7 @@ class Game:
         text_rect.top = y
         surface.blit(text_surface, text_rect)
 
+    # 檢查狀態
     def check_for_state(self):
         if (self.lives == 0):
             self.game_over()
