@@ -1,11 +1,8 @@
 import pygame
-import random
 from setting import *
 from gem import Gem
 from background import BackGround
 from puzzle import Puzzle
-from animation import Explosion
-
 
 class Game:
     def __init__(self):
