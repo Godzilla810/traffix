@@ -21,6 +21,4 @@ class Gem(pygame.sprite.Sprite):
     def swap(self, target : 'Gem'):
         self.row, target.row = target.row, self.row
         self.col, target.col = target.col, self.col
-        self.set_rect()
-        target.set_rect()
 

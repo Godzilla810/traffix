@@ -36,13 +36,20 @@ class Puzzle():
                 break
 
     def drag_gem(self, pos):
+        # 拖曳珠子
+        if not self.selected_gem:
+            return
         self.selected_gem.rect.center = pos
         for gem in self.gem_group:
             if gem != self.selected_gem and gem.rect.collidepoint(pos) and self.selected_gem.is_adjacent(gem):
                 self.selected_gem.swap(gem)
+                gem.set_rect()
                 break
 
     def release_gem(self):
+        # 釋放珠子
+        if not self.selected_gem:
+            return
         self.selected_gem.set_rect()
         self.selected_gem = None
 
