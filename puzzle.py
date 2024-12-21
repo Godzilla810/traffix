@@ -55,15 +55,20 @@ class Puzzle():
             return
         self.selected_gem.set_rect()
         self.selected_gem = None
-        # 將珠子轉換為 grid
-        grid = [[None for _ in range(COL)] for _ in range(ROW)]
-        for gem in self.gem_group:
-            grid[gem.row][gem.col] = gem.color_name
 
-        # 檢查匹配
-        matches = self.check_matches(grid)
-        if matches:
-            self.process_matches(matches)
+        while True:  # 使用迴圈，確保不斷檢測直到無匹配為止
+            # 將珠子轉換為 grid
+            grid = [[None for _ in range(COL)] for _ in range(ROW)]
+            for gem in self.gem_group:
+                grid[gem.row][gem.col] = gem.color_name
+
+            # 檢查匹配
+            matches = self.check_matches(grid)
+            if not matches:
+                break  # 如果沒有匹配，退出迴圈
+
+            self.process_matches(matches)  # 處理匹配的珠子
+            self.refill_grid()  # 填補空缺的珠子
 
     def check_matches(self, grid):
         """檢查是否有三消的匹配"""
@@ -86,9 +91,6 @@ class Puzzle():
                     gem.kill()
                     car = Car(row, col, 1)
                     self.car_group.add(car)
-
-        # 重整珠子並補充
-        self.refill_grid()
 
     def refill_grid(self):
         """補充空缺的珠子"""
