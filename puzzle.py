@@ -4,9 +4,11 @@ from setting import *
 from gem import Gem
 from car import Car
 from board import Board
+from road import Road
 
 class Puzzle():
     def __init__(self):
+        self.road = Road()
         self.board = Board()
         self.gem_group = pygame.sprite.Group()
         self.car_group = pygame.sprite.Group()
@@ -101,6 +103,7 @@ class Puzzle():
                 self.gem_group.add(new_gem)
 
     def draw(self, screen):
+        self.road.draw(screen)
         self.board.draw(screen)
         self.gem_group.draw(screen)
         self.car_group.draw(screen)
