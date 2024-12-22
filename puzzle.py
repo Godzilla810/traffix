@@ -3,6 +3,7 @@ import random
 from setting import *
 from gem import Gem
 from car import Car
+from enemy import Enemy
 from board import Board
 from road import Road
 
@@ -12,18 +13,27 @@ class Puzzle():
         self.board = Board()
         self.gem_group = pygame.sprite.Group()
         self.car_group = pygame.sprite.Group()
+        self.enemy_group = pygame.sprite.Group()
         self.selected_gem = None
 
         for i in range(ROW):
             for j in range(COL):
                 gem = Gem(i, j, random.choice(COLOR_LIST))
                 self.gem_group.add(gem)
+                self.enemy_group.add(Enemy(j))
 
     def update(self):
         self.gem_group.update()
         self.car_group.update()
+        self.enemy_group.update()
         self.check_input()
             
+    def draw(self, screen):
+        self.road.draw(screen)
+        self.board.draw(screen)
+        self.gem_group.draw(screen)
+        self.car_group.draw(screen)
+        self.enemy_group.draw(screen)
 
     def check_input(self):
         for event in pygame.event.get():
@@ -102,9 +112,4 @@ class Puzzle():
                 new_gem = Gem(empty_row, col, random.choice(COLOR_LIST))
                 self.gem_group.add(new_gem)
 
-    def draw(self, screen):
-        self.road.draw(screen)
-        self.board.draw(screen)
-        self.gem_group.draw(screen)
-        self.car_group.draw(screen)
         

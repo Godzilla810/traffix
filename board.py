@@ -9,4 +9,4 @@ class Board(pygame.sprite.Sprite):
         for row in range(ROW):
             for col in range(COL):
                 color = LIGHT_BROWN if (row + col) % 2 == 0 else DARK_BROWN
-                pygame.draw.rect(screen, color, (row * GRID_SIZE, PUZZLE_HEIGHT_Y + col * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+                pygame.draw.rect(screen, color, (row * GRID_SIZE, PUZZLE_HEIGHT + col * GRID_SIZE, GRID_SIZE, GRID_SIZE))
