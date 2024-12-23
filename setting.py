@@ -1,23 +1,22 @@
-import pygame
 
 FPS = 60
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 800
-# 畫面棋盤分界
-PUZZLE_HEIGHT_Y = 300
-
-YELLOW = (255, 255, 0)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-
-ROW = 6
+ROW = 5
 COL = 5
-GEM_SIZE = 75
-GRID_SIZE = 100
+GEM_SIZE = 70
+GRID_SIZE = 75
+
+PUZZLE_HEIGHT = 0
+PUZZLE_WIDTH = GRID_SIZE * ROW
+SCREEN_WIDTH = 1500
+SCREEN_HEIGHT = PUZZLE_HEIGHT + GRID_SIZE * COL
+
+ENEMY_SPRITE_COUNT = 8
+ANIMATION_SPEED = 5
 
 # 定義顏色
 LIGHT_BROWN = (222, 184, 135)  # 浅棕色
 DARK_BROWN = (139, 69, 19)    # 深棕色
-COLOR_LIST = ["blue", "green", "orange", "purple", "red", "yellow"]
+GRAY = (50, 50, 50)  # 灰色
+WHITE = (255, 255, 255)  # 白色
+COLOR_LIST = ["blue", "green", "orange", "purple", "red"]
