@@ -14,7 +14,7 @@ class Car(pygame.sprite.Sprite):
         
     def set_rect(self):
         self.rect.center = (GRID_SIZE / 2 + self.row * GRID_SIZE, 
-                            GRID_SIZE / 2 +  PUZZLE_HEIGHT + self.col * GRID_SIZE)
+                            GRID_SIZE / 2 +  PUZZLE_Y + self.col * GRID_SIZE)
 
     def update(self):
         self.rect.x += 5

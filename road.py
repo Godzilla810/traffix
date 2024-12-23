@@ -11,9 +11,9 @@ class Road(pygame.sprite.Sprite):
 
     def draw(self, screen):
         # 畫馬路背景
-        pygame.draw.rect(screen, GRAY, (PUZZLE_WIDTH, PUZZLE_HEIGHT, self.width, SCREEN_HEIGHT))  # 灰色背景
+        pygame.draw.rect(screen, GRAY, (PUZZLE_WIDTH, PUZZLE_Y, self.width, SCREEN_HEIGHT))  # 灰色背景
 
         # 畫車道線
         for i in range(1, self.lane_count):
-            lane_y = PUZZLE_HEIGHT + i * self.lane_width
+            lane_y = PUZZLE_Y + i * self.lane_width
             pygame.draw.line(screen, WHITE, (PUZZLE_WIDTH, lane_y), (SCREEN_WIDTH, lane_y), 3)  # 白色車道線

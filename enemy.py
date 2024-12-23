@@ -17,13 +17,11 @@ class Enemy(pygame.sprite.Sprite):
 
     def set_pos(self):
         self.rect.center = (SCREEN_WIDTH, 
-                            GRID_SIZE / 2 +  PUZZLE_HEIGHT + self.col * GRID_SIZE)
+                            GRID_SIZE / 2 +  PUZZLE_Y + self.col * GRID_SIZE)
 
     def update(self):
         self.rect.x -= 2
-        if self.rect.x < PUZZLE_WIDTH:
-            self.kill()
-
+        
         now = pygame.time.get_ticks()
         if now - self.animation_time > self.animation_delay:
             self.frame += 1

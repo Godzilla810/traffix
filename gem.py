@@ -15,7 +15,7 @@ class Gem(pygame.sprite.Sprite):
         
     def get_standard_position(self):
         return (GRID_SIZE / 2 + self.row * GRID_SIZE, 
-                GRID_SIZE / 2 +  PUZZLE_HEIGHT + self.col * GRID_SIZE)
+                GRID_SIZE / 2 +  PUZZLE_Y + self.col * GRID_SIZE)
     
     def set_rect(self):
         self.rect.center = self.get_standard_position()
