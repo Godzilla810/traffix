@@ -14,19 +14,40 @@ class Puzzle():
         self.gem_group = pygame.sprite.Group()
         self.car_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
+        self.enemy_generate_time = 0
+        self.enemy_generate_delay = 2000
+        self.enemy_generated_count = 0
         self.selected_gem = None
 
         for i in range(ROW):
             for j in range(COL):
                 gem = Gem(i, j, random.choice(COLOR_LIST))
                 self.gem_group.add(gem)
-                self.enemy_group.add(Enemy(j))
 
     def update(self):
         self.gem_group.update()
         self.car_group.update()
         self.enemy_group.update()
+
+        self.check_for_collisions()
+        self.generate_enemy()
         self.check_input()
+
+    def generate_enemy(self):
+        now = pygame.time.get_ticks()
+        if now - self.enemy_generate_time > self.enemy_generate_delay:
+            self.enemy_generate_time = pygame.time.get_ticks()
+            self.enemy_group.add(Enemy(random.randint(0, COL-1)))
+            self.enemy_generated_count += 1
+
+    def check_for_collisions(self):
+        for car in self.car_group:
+            for enemy in self.enemy_group:
+                if pygame.sprite.collide_rect(enemy, car) and car.capacity > 0:
+                    enemy.kill()
+                    car.capacity -= 1
+                    if (car.capacity == 0):
+                        car.kill()
             
     def draw(self, screen):
         self.road.draw(screen)

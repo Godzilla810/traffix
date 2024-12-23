@@ -6,7 +6,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, col):
         super().__init__()
         self.col = col
-        self.sprite_sheet = pygame.image.load(f"Image/People/Blue/blue_walk_WEST-Sheet.png").convert_alpha()
+        self.sprite_sheet = pygame.image.load(f"Image/People/Red/red_walk_WEST-Sheet.png").convert_alpha()
         self.animation = SpriteSheet.extract_images(self.sprite_sheet, ENEMY_SPRITE_COUNT)
         self.frame = 0
         self.animation_time = 0
@@ -28,4 +28,4 @@ class Enemy(pygame.sprite.Sprite):
         if now - self.animation_time > self.animation_delay:
             self.frame += 1
             self.animation_time = pygame.time.get_ticks()
-            self.image = self.animation[self.frame % len(self.animation)]      
+            self.image = self.animation[self.frame % len(self.animation)]
