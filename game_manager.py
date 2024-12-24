@@ -3,29 +3,33 @@ from setting import *
 from game import Game
 
 class GameManager:
-    def __init__(self, level):
-        self.game_over = False
-        self.game_pass = False
+    def __init__(self, level = 1):
         self.wait = False
         self.run = True
         self.level = level
-        self.background = pygame.image.load("Image/background_1_lower.jpg")
-        self.game = Game(self.level * 10, max(1500 - self.level * 250, 250))
+        self.game = Game(self.level)
 
     def update(self):
         self.game.update()
         self.check_for_state()
         pass
 
+    def check_for_state(self):
+        if (self.game.game_pass == True or self.game.game_over == True):
+            self.run = False
+            self.wait = True
+        pass
+
     def draw(self, surface):
         self.game.draw(surface)
 
-        if (self.game_over == True):
+        if (self.game.game_over == True):
             self.draw_text(surface, "GAME OVER!!", 40, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75)
-            self.draw_text(surface, "Press R to Restart", 24, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 25)
+            self.draw_text(surface, f"YOUR SCORE:{self.level}", 28, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 10)
+            self.draw_text(surface, "Press R to Restart", 24, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50)
         
-        if (self.game_pass == True):
-            self.draw_text(surface, f"LEVEL {self.level} PASS!!", 40, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75)
+        if (self.game.game_pass == True):
+            self.draw_text(surface, f"LEVEL{self.level}  PASS!!", 40, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 75)
             self.draw_text(surface, "Press N to Next Level", 24, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 25)
 
 
@@ -36,18 +40,6 @@ class GameManager:
         text_rect.centerx = x
         text_rect.top = y
         surface.blit(text_surface, text_rect)
-
-    def check_for_state(self):
-        if (self.game.hp == 0):
-            self.game_over = True
-            self.run = False
-            self.wait = True
-        if (self.game.game_pass == True):
-            self.game_pass = True
-            self.run = False
-            self.wait = True
-        pass
-
 
     def reset(self, level):
         self.__init__(level)

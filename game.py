@@ -1,28 +1,33 @@
 import pygame
 import random
+from enemy_generator import EnemyGenerator
 from setting import *
 from gem import Gem
 from car import Car
-from enemy import Enemy
 from board import Board
 from road import Road
 from bar import *
 
 class Game():
-    def __init__(self, enemy_num, enemy_generate_delay):
+    def __init__(self, level):
+        self.level = level
+        self.game_over = False
         self.game_pass = False
-        self.enemy_num = enemy_num
-        self.hp = 5
-        self.progress = Progress(self.enemy_num, self.enemy_num)
-        self.hp_bar = HpBar(self.hp, self.hp)
+        
+        self.start_time = pygame.time.get_ticks()
+        self.total_time = self.level * 10000
+        self.hp = max(self.level, 5)
+        
+        self.progress = Progress(self.total_time)
+        self.hp_bar = HpBar(self.hp)
 
         self.road = Road()
         self.board = Board()
         self.gem_group = pygame.sprite.Group()
         self.car_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
-        self.enemy_generate_time = 0
-        self.enemy_generate_delay = enemy_generate_delay
+
+        self.enemy_generator = EnemyGenerator(self.total_time, max(1500 - self.level * 250, 250), self.enemy_group)
 
         self.selected_gem = None
 
@@ -32,28 +37,23 @@ class Game():
                 self.gem_group.add(gem)
 
     def update(self):
+        self.enemy_generator.update()
+
         self.gem_group.update()
         self.car_group.update()
         self.enemy_group.update()
 
+        self.progress.update(self.total_time - pygame.time.get_ticks() + self.start_time)
+
         self.check_for_state()
         self.check_for_collisions()
-        self.generate_enemy()
         self.check_input()
 
     def check_for_state(self):
-        if self.enemy_num == 0 and len(self.enemy_group) == 0 and len(self.car_group) == 0:
+        if self.hp == 0:
+            self.game_over = True
+        if pygame.time.get_ticks() - self.start_time >= self.total_time and len(self.enemy_group) == 0:
             self.game_pass = True
-
-    def generate_enemy(self):
-        now = pygame.time.get_ticks()
-        if now - self.enemy_generate_time > self.enemy_generate_delay:
-            if self.enemy_num == 0:
-                return
-            self.enemy_generate_time = pygame.time.get_ticks()
-            self.enemy_group.add(Enemy(random.randint(0, COL-1)))
-            self.enemy_num -= 1
-            self.progress.update(self.enemy_num)
 
     def check_for_collisions(self):
         for car in self.car_group:
@@ -73,6 +73,7 @@ class Game():
     def draw(self, screen):
         self.road.draw(screen)
         self.board.draw(screen)
+
         self.gem_group.draw(screen)
         self.car_group.draw(screen)
         self.enemy_group.draw(screen)

@@ -13,7 +13,7 @@ pygame.display.set_caption("Traffix")
 clock = pygame.time.Clock()
 
 
-game_manager = GameManager(1)
+game_manager = GameManager()
 
 running = True
 
@@ -27,11 +27,9 @@ while running:
         running = False
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_r]:
-        print("restart")
-    if keys[pygame.K_r] and game_manager.game_over == True:
-        game_manager.reset(1)
-    if keys[pygame.K_n] and game_manager.game_pass == True:
+    if keys[pygame.K_r] and game_manager.game.game_over == True:
+        game_manager.reset()
+    if keys[pygame.K_n] and game_manager.game.game_pass == True:
         game_manager.reset(game_manager.level + 1)
 
     # Update

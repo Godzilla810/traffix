@@ -23,21 +23,21 @@ class Bar():
         pass
 
 class Progress(Bar):
-    def __init__(self, time, total_time):
+    def __init__(self, total_time):
         x = PUZZLE_WIDTH
         y = 0
         width = ROAD_WIDTH
         height = BAR_HRIGHT
         base_color = WHITE
         bar_color = GREEN
-        super().__init__(x, y, width, height, base_color, bar_color, time, total_time)
+        super().__init__(x, y, width, height, base_color, bar_color, total_time, total_time)
 
 class HpBar(Bar):
-    def __init__(self, hp, total_hp):
+    def __init__(self, total_hp):
         x = 0
         y = 0
         width = PUZZLE_WIDTH
         height = BAR_HRIGHT
         base_color = BLACK
         bar_color = RED
-        super().__init__(x, y, width, height, base_color, bar_color, hp, total_hp)
+        super().__init__(x, y, width, height, base_color, bar_color, total_hp, total_hp)
