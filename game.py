@@ -30,7 +30,7 @@ class Game():
 
         self.gem_manager = GemManager(self.gem_group)
         self.car_generator = CarGenerator(self.car_group)
-        self.enemy_generator = EnemyGenerator(self.time, max(1500 - self.level * 250, 250), self.enemy_group)
+        self.enemy_generator = EnemyGenerator(self.time, max(1500 - int(self.level ** 1.5) * 100, 250), self.enemy_group)
 
     def update(self):
         self.progress.update(self.time - pygame.time.get_ticks() + self.start_time)

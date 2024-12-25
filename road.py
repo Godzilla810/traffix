@@ -13,7 +13,13 @@ class Road(pygame.sprite.Sprite):
         # 畫馬路背景
         pygame.draw.rect(screen, GRAY, (PUZZLE_WIDTH, PUZZLE_Y, self.width, SCREEN_HEIGHT))  # 灰色背景
 
-        # 畫車道線
+        # 畫虛線車道線
+        dash_length = 40  # 每段虛線的長度
+        gap_length = 20    # 每段虛線之間的間隔
         for i in range(1, self.lane_count):
             lane_y = PUZZLE_Y + i * self.lane_width
-            pygame.draw.line(screen, WHITE, (PUZZLE_WIDTH, lane_y), (SCREEN_WIDTH, lane_y), 3)  # 白色車道線
+            x_start = PUZZLE_WIDTH
+            while x_start < SCREEN_WIDTH:
+                x_end = min(x_start + dash_length, SCREEN_WIDTH)
+                pygame.draw.line(screen, WHITE, (x_start, lane_y), (x_end, lane_y), 3)
+                x_start += dash_length + gap_length
