@@ -5,7 +5,9 @@ from setting import *
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, col):
         super().__init__()
-        self.animation = Animation(pygame.image.load(f"Image/People/Red/red_walk_WEST-Sheet.png").convert_alpha(), ENEMY_SPRITE_COUNT, 50)
+        # self.color = color
+
+        self.animation = Animation(f"Image/People/Red/red_walk_WEST-Sheet.png", 50, 8)
         self.image = self.animation.image
 
         self.rect = self.image.get_rect()

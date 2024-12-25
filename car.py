@@ -1,13 +1,16 @@
 import pygame
 from setting import *
+from animation import Animation
 
 class Car(pygame.sprite.Sprite):
     def __init__(self, row, col, color, matches_num):
         super().__init__()
         self.color = color
         self.capacity = 2 ** (matches_num - 1)
-        self.image = pygame.image.load(f"Image/Vehicles/{VEHICLE_TYPE.get(self.capacity)}/{self.color}.png")
-        self.image = pygame.transform.scale(self.image, (GEM_SIZE, GEM_SIZE))
+
+        self.animation = Animation(f"Image/Vehicles/{VEHICLE_TYPE.get(self.capacity)}/{self.color}", 100)
+        self.image = self.animation.image
+
         self.rect = self.image.get_rect()
         self.set_position(row, col)
     
@@ -17,6 +20,8 @@ class Car(pygame.sprite.Sprite):
 
     def update(self):
         # animation
+        self.animation.update()
+        self.image = self.animation.image
         # move
         self.rect.x += 5
         # constraint

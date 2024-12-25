@@ -10,6 +10,9 @@ class Tile:
         self.row = row
         self.col = col
 
+    def in_range(self):
+        return self.row in range(ROW) and self.col in range(COL)
+
 class GemManager():
     def __init__(self, gem_group : pygame.sprite.Group):
         self.grid : list[list[Optional[Gem]]] = [[None for _ in range(COL)] for _ in range(ROW)]
@@ -29,19 +32,19 @@ class GemManager():
                 break
 
     def drag_start(self, pos):
-        if not self.in_range(pos):
-            return
         self.tile = Tile(pos[0] // GRID_SIZE, pos[1] // GRID_SIZE)
+        if not self.tile.in_range():
+            self.tile = None
     
     def dragging(self, pos):
         # 拖曳珠子
-        if not self.tile and not self.in_range(pos):
+        if not self.tile:
             return
         target_tile = Tile(pos[0] // GRID_SIZE, pos[1] // GRID_SIZE)
         # 讓選取的珠子跟著移動
         self.grid[self.tile.row][self.tile.col].rect.center = pos
 
-        if (self.tile != target_tile and self.is_adjacent(self.tile, target_tile)):
+        if target_tile.in_range() and self.tile != target_tile and self.is_adjacent(self.tile, target_tile):
             # 交換位置
             self.grid[target_tile.row][target_tile.col].set_position(self.tile.row, self.tile.col)
             self.swap_tile(self.tile, target_tile)
@@ -53,9 +56,6 @@ class GemManager():
             return
         self.grid[self.tile.row][self.tile.col].set_position(self.tile.row, self.tile.col)
         self.tile = None
-
-    def in_range(self, pos):
-        return pos[0] // GRID_SIZE in range(ROW) and pos[1] // GRID_SIZE in range(COL)
 
     def swap_tile(self, tileA : Tile, tileB : Tile):
         self.grid[tileA.row][tileA.col], self.grid[tileB.row][tileB.col] = self.grid[tileB.row][tileB.col], self.grid[tileA.row][tileA.col]
