@@ -9,7 +9,7 @@ class Car(pygame.sprite.Sprite):
         self.color = color
         self.capacity = min(max(2 ** (matches_num - 1), 1), 4)
         # animation
-        self.animation = Animation(f"Image/Vehicles/{VEHICLE_TYPE.get(self.capacity)}/{self.color}", 100)
+        self.animation = Animation(f"Image/Vehicles/{VEHICLE_TYPE.get(self.capacity)}/{self.color}", 180)
         self.image = self.animation.image
         # position
         self.rect = self.image.get_rect()

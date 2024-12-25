@@ -8,7 +8,7 @@ class Enemy(pygame.sprite.Sprite):
         # attribute
         self.color = color
         # animation
-        self.animation = Animation(f"Image/Enemies/{self.color}.png", 50, 8)
+        self.animation = Animation(f"Image/Enemies/{self.color}.png", 80, 8)
         self.image = self.animation.image
         # position
         self.rect = self.image.get_rect()

@@ -1,7 +1,7 @@
 import pygame
 import sys
 from setting import *
-from game_manager import GameManager
+from game_manager import *
 
 
 pygame.init()
@@ -11,7 +11,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Traffix")
 
 clock = pygame.time.Clock()
-
 
 game_manager = GameManager()
 
@@ -27,10 +26,13 @@ while running:
         running = False
 
     keys = pygame.key.get_pressed()
+    if keys[pygame.K_s] and game_manager.state == State.MENU:
+        game_manager.start_game()
+        game_manager.state = State.GAME
     if keys[pygame.K_r] and game_manager.game.game_over == True:
-        game_manager.reset()
+        game_manager.start_game()
     if keys[pygame.K_n] and game_manager.game.game_pass == True:
-        game_manager.reset(game_manager.level + 1)
+        game_manager.start_game(game_manager.level + 1)
 
     # Update
     if game_manager.run:

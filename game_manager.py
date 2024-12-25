@@ -1,16 +1,33 @@
 import pygame
+from enum import Enum, auto
+from background import BackGround
 from setting import *
 from game import Game
 
+# 定義遊戲狀態
+class State(Enum):
+    MENU = auto()
+    GAME = auto()
+
 class GameManager:
-    def __init__(self, level = 1):
+    def __init__(self):
+        self.wait = False
+        self.run = True
+        self.level = 1
+        self.score = 0
+        self.state = State.MENU
+        self.start_page = BackGround("Image/background.jpg")
+        self.game = None
+
+    def start_game(self, level = 1):
         self.wait = False
         self.run = True
         self.level = level
-        self.score = 0
-        self.game = Game(self.level)
+        self.game = Game(level)
 
     def update(self):
+        if self.state == State.MENU:
+            return
         self.game.update()
         self.check_for_state()
         pass
@@ -23,7 +40,13 @@ class GameManager:
         pass
 
     def draw(self, surface):
+        if self.state == State.MENU:
+            self.start_page.draw(surface)
+            self.draw_text(surface, "Press S to Start", 24, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 110)
+            return
+        
         self.game.draw(surface)
+        self.draw_text(surface, f"LEVEL{self.level}", 24, WHITE, False, SCREEN_WIDTH - 50, 20)
 
         if (self.game.game_over == True):
             self.draw_text(surface, "GAME OVER!!", 40, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 85)
@@ -43,7 +66,4 @@ class GameManager:
         text_rect.top = y
         surface.blit(text_surface, text_rect)
 
-    def reset(self, level = 1):
-        self.__init__(level)
-        pass
 

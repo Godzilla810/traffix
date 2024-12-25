@@ -2,7 +2,7 @@
 FPS = 60
 
 # Basic
-ROW = 6
+ROW = 5
 COL = 5
 
 GEM_SIZE = 70
@@ -18,7 +18,7 @@ PUZZLE_HEIGHT = GRID_SIZE * COL
 
 ROAD_X = PUZZLE_WIDTH
 ROAD_Y = BAR_HRIGHT
-ROAD_WIDTH = 1000
+ROAD_WIDTH = 750
 ROAD_HEIGHT = PUZZLE_HEIGHT
 
 SCREEN_WIDTH = PUZZLE_WIDTH + ROAD_WIDTH
@@ -32,6 +32,8 @@ BLACK = (0, 0, 0)               # 黑色
 WHITE = (255, 255, 255)         # 白色
 GREEN = (0, 255, 0)             # 綠色
 RED = (255, 0, 0)               # 紅色
+YELLOW = (255, 255, 0)          # 黃色
+ORANGE = (255, 165, 0)          # 橙色
 
 PROGRESS_BASE_COLOR = WHITE
 PROGRESS_COLOR = GREEN
