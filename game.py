@@ -1,8 +1,8 @@
 import pygame
-import random
-from enemy_generator import EnemyGenerator
-from gem_manager import GemManager
 from setting import *
+from gem_manager import GemManager
+from car_generator import CarGenerator
+from enemy_generator import EnemyGenerator
 from board import Board
 from road import Road
 from bar import *
@@ -28,6 +28,7 @@ class Game():
         self.enemy_group = pygame.sprite.Group()
 
         self.gem_manager = GemManager(self.gem_group)
+        self.car_generator = CarGenerator(self.car_group)
         self.enemy_generator = EnemyGenerator(self.time, max(1500 - self.level * 250, 250), self.enemy_group)
 
     def update(self):
@@ -37,7 +38,7 @@ class Game():
         self.car_group.update()
         self.enemy_group.update()
 
-        self.enemy_generator.update()
+        # self.enemy_generator.update()
 
         self.check_for_state()
         self.check_for_collisions()
@@ -53,8 +54,8 @@ class Game():
     # 檢查碰撞
     def check_for_collisions(self):
         # 檢查敵人是否與車子相撞
-        for car in self.car_group:
-            for enemy in self.enemy_group:
+        for enemy in self.enemy_group:
+            for car in self.car_group:
                 if pygame.sprite.collide_rect(enemy, car) and car.capacity > 0:
                     enemy.kill()
                     car.capacity -= 1
@@ -77,6 +78,11 @@ class Game():
                 self.gem_manager.dragging(event.pos)
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.gem_manager.drag_end()
+                matches = self.gem_manager.check_matches()
+                while matches:
+                    self.gem_manager.process_matches(matches)
+                    self.car_generator.generate_car(matches)
+                    matches = self.gem_manager.check_matches()
             
     def draw(self, screen):
         self.road.draw(screen)

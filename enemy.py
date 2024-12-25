@@ -13,7 +13,8 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.centery = GRID_SIZE / 2 +  PUZZLE_Y + col * GRID_SIZE
 
     def update(self):
-        self.rect.x -= 2
-
+        # animation
         self.animation.update()
         self.image = self.animation.image
+        # move
+        self.rect.x -= 2

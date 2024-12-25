@@ -1,6 +1,7 @@
 import pygame
 import random
 from typing import Optional
+from collections import Counter
 from setting import *
 from gem import Gem
 
@@ -8,11 +9,6 @@ class Tile:
     def __init__(self, row : int, col : int):
         self.row = row
         self.col = col
-
-    def __eq__(self, other):
-        if isinstance(other, Tile):
-            return self.row == other.row and self.col == other.col
-        return False
 
 class GemManager():
     def __init__(self, gem_group : pygame.sprite.Group):
@@ -58,8 +54,6 @@ class GemManager():
         self.grid[self.tile.row][self.tile.col].set_position(self.tile.row, self.tile.col)
         self.tile = None
 
-        self.process_matches()
-
     def in_range(self, pos):
         return pos[0] // GRID_SIZE in range(ROW) and pos[1] // GRID_SIZE in range(COL)
 
@@ -69,32 +63,30 @@ class GemManager():
     def is_adjacent(self, tileA : Tile, tileB : Tile):
         return abs(tileA.row - tileB.row) + abs(tileA.col - tileB.col) == 1
     
+    def process_matches(self, matches):
+        self.remove_matches(matches)
+        self.refill_grid(matches)
+
     def check_matches(self):
-        matches = set()
+        matches = Counter()
         for row in range(ROW):
             for col in range(COL - 2):
                 if self.grid[row][col] and self.grid[row][col].color == self.grid[row][col+1].color == self.grid[row][col+2].color:
-                    matches.update([(row, col), (row, col+1), (row, col+2)])
+                    color = self.grid[row][col].color
+                    matches.update([(row, col, color), (row, col+1, color), (row, col+2, color)])
         for col in range(COL):
             for row in range(ROW - 2):
                 if self.grid[row][col] and self.grid[row][col].color == self.grid[row+1][col].color == self.grid[row+2][col].color:
-                    matches.update([(row, col), (row+1, col), (row+2, col)])
+                    color = self.grid[row][col].color
+                    matches.update([(row, col, color), (row+1, col, color), (row+2, col, color)])
         return matches
-    
-    def process_matches(self):
-        while True:
-            matches = self.check_matches()
-            if not matches:
-                break
-            self.remove_matches(matches)
-            self.refill_grid(matches)
 
     def remove_matches(self, matches):
-        for row, col in matches:
+        for row, col, _ in matches:
             self.grid[row][col].kill()
 
     def refill_grid(self, matches):
-        for row, col in matches:
+        for row, col, _ in matches:
             gem = Gem(row, col, random.choice(COLOR_LIST))
             self.grid[row][col] = gem
             self.gem_group.add(gem)

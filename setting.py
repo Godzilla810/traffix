@@ -37,4 +37,10 @@ PROGRESS_BASE_COLOR = WHITE
 PROGRESS_COLOR = GREEN
 HP_BAR_COLOR = RED
 
-COLOR_LIST = ["blue", "green", "orange", "purple", "red"]
+COLOR_LIST = ["blue", "green", "yellow", "red"]
+
+VEHICLE_TYPE = {
+    1: "Scooter",
+    2: "Car",
+    4: "Van",
+}
