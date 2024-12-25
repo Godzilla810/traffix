@@ -41,7 +41,7 @@ class GameManager:
         text_rect.top = y
         surface.blit(text_surface, text_rect)
 
-    def reset(self, level):
+    def reset(self, level = 1):
         self.__init__(level)
         pass
 

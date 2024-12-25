@@ -3,11 +3,11 @@ from animation import Animation
 from setting import *
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, col):
+    def __init__(self, col, color):
         super().__init__()
-        # self.color = color
+        self.color = color
 
-        self.animation = Animation(f"Image/People/Red/red_walk_WEST-Sheet.png", 50, 8)
+        self.animation = Animation(f"Image/Enemies/{self.color}.png", 50, 8)
         self.image = self.animation.image
 
         self.rect = self.image.get_rect()

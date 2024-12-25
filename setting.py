@@ -1,7 +1,7 @@
 
 FPS = 60
 
-ROW = 5
+ROW = 6
 COL = 5
 GEM_SIZE = 70
 GRID_SIZE = 75

@@ -38,7 +38,7 @@ class Game():
         self.car_group.update()
         self.enemy_group.update()
 
-        # self.enemy_generator.update()
+        self.enemy_generator.update()
 
         self.check_for_state()
         self.check_for_collisions()
@@ -56,7 +56,7 @@ class Game():
         # 檢查敵人是否與車子相撞
         for enemy in self.enemy_group:
             for car in self.car_group:
-                if pygame.sprite.collide_rect(enemy, car) and car.capacity > 0:
+                if pygame.sprite.collide_rect(enemy, car) and car.color == enemy.color:
                     enemy.kill()
                     car.capacity -= 1
                     if (car.capacity == 0):

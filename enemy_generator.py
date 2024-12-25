@@ -20,4 +20,4 @@ class EnemyGenerator():
             self.generate_enemy()
 
     def generate_enemy(self):
-        self.enemy_group.add(Enemy(random.randint(0, COL-1)))
+        self.enemy_group.add(Enemy(random.randint(0, COL-1), random.choice(COLOR_LIST)))
