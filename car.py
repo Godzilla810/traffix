@@ -3,14 +3,15 @@ from setting import *
 from animation import Animation
 
 class Car(pygame.sprite.Sprite):
-    def __init__(self, row, col, color, matches_num):
+    def __init__(self, row, col, color : str, matches_num : int):
         super().__init__()
+        # attribute
         self.color = color
-        self.capacity = 2 ** (matches_num - 1)
-
+        self.capacity = min(max(2 ** (matches_num - 1), 1), 4)
+        # animation
         self.animation = Animation(f"Image/Vehicles/{VEHICLE_TYPE.get(self.capacity)}/{self.color}", 100)
         self.image = self.animation.image
-
+        # position
         self.rect = self.image.get_rect()
         self.set_position(row, col)
     

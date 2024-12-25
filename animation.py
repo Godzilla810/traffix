@@ -23,6 +23,7 @@ class Animation(pygame.sprite.Sprite):
             self.image = self.animation[self.frame % len(self.animation)]
 
 class Tool():
+    @staticmethod
     def extract_images_from_sprite_sheet(sprite_sheet_path : str, images_num : int) -> list[pygame.Surface]:
         images = []
         sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()

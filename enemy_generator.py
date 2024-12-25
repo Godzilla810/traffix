@@ -16,6 +16,7 @@ class EnemyGenerator():
         now = pygame.time.get_ticks()
         if now - self.start_time >= self.total_generate_time:
             return
+        # 如果產生了很多敵人，會停頓比較久
         elif now - self.generate_time > self.generate_delay * self.generate_count:
             self.generate_time = now
             self.generate_count = random.randint(1, COL)

@@ -4,10 +4,13 @@ from setting import *
 class Gem(pygame.sprite.Sprite):
     def __init__(self, row, col, color : str):
         super().__init__()
+        # attribute
         self.color = color
+        # animation
         self.size = 0
         self.image = pygame.image.load(f"Image/Gems/{self.color}.png")
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
+        # position
         self.rect = self.image.get_rect()
         self.set_position(row, col)
     

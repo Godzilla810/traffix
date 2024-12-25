@@ -1,11 +1,14 @@
 
 FPS = 60
 
+# Basic
 ROW = 6
 COL = 5
+
 GEM_SIZE = 70
 GRID_SIZE = 75
 
+# Position
 BAR_HRIGHT = 10
 
 PUZZLE_X = 0
@@ -21,7 +24,7 @@ ROAD_HEIGHT = PUZZLE_HEIGHT
 SCREEN_WIDTH = PUZZLE_WIDTH + ROAD_WIDTH
 SCREEN_HEIGHT = BAR_HRIGHT + PUZZLE_HEIGHT
 
-# 定義顏色
+# Color
 LIGHT_BROWN = (222, 184, 135)   # 浅棕色
 DARK_BROWN = (139, 69, 19)      # 深棕色
 GRAY = (50, 50, 50)             # 灰色
@@ -34,6 +37,7 @@ PROGRESS_BASE_COLOR = WHITE
 PROGRESS_COLOR = GREEN
 HP_BAR_COLOR = RED
 
+# Game
 COLOR_LIST = ["blue", "green", "yellow", "red"]
 
 VEHICLE_TYPE = {

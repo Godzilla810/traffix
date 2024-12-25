@@ -20,6 +20,7 @@ class GemManager():
         self.gem_group : pygame.sprite.Group = gem_group
         self.initialize_grid()
 
+    # 初始化
     def initialize_grid(self):
         while True:
             self.gem_group.empty()
@@ -37,7 +38,6 @@ class GemManager():
             self.tile = None
     
     def dragging(self, pos):
-        # 拖曳珠子
         if not self.tile:
             return
         target_tile = Tile(pos[0] // GRID_SIZE, pos[1] // GRID_SIZE)
@@ -45,28 +45,26 @@ class GemManager():
         self.grid[self.tile.row][self.tile.col].rect.center = pos
 
         if target_tile.in_range() and self.tile != target_tile and self.is_adjacent(self.tile, target_tile):
-            # 交換位置
+            # 讓目標珠子換位置
             self.grid[target_tile.row][target_tile.col].set_position(self.tile.row, self.tile.col)
             self.swap_tile(self.tile, target_tile)
             self.tile = target_tile
 
     def drag_end(self):
-        # 釋放珠子
         if not self.tile:
             return
         self.grid[self.tile.row][self.tile.col].set_position(self.tile.row, self.tile.col)
         self.tile = None
 
+    # 交換位置
     def swap_tile(self, tileA : Tile, tileB : Tile):
         self.grid[tileA.row][tileA.col], self.grid[tileB.row][tileB.col] = self.grid[tileB.row][tileB.col], self.grid[tileA.row][tileA.col]
 
+    # 檢查是否相鄰
     def is_adjacent(self, tileA : Tile, tileB : Tile):
         return abs(tileA.row - tileB.row) + abs(tileA.col - tileB.col) == 1
     
-    def process_matches(self, matches):
-        self.remove_matches(matches)
-        self.refill_grid(matches)
-
+    # 檢查配對
     def check_matches(self):
         matches = Counter()
         for row in range(ROW):
@@ -80,12 +78,19 @@ class GemManager():
                     color = self.grid[row][col].color
                     matches.update([(row, col, color), (row+1, col, color), (row+2, col, color)])
         return matches
+    
+    # 處理配對
+    def process_matches(self, matches : Counter):
+        self.remove_matches(matches)
+        self.refill_grid(matches)
 
+    # 移除配對
     def remove_matches(self, matches):
         for row, col, _ in matches:
             self.grid[row][col].kill()
 
-    def refill_grid(self, matches):
+    # 重新填滿
+    def refill_grid(self, matches : Counter):
         for row, col, _ in matches:
             gem = Gem(row, col, random.choice(COLOR_LIST))
             self.grid[row][col] = gem

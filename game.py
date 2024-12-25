@@ -1,11 +1,11 @@
 import pygame
 from setting import *
+from board import Board
+from road import Road
+from bar import Progress, HpBar
 from gem_manager import GemManager
 from car_generator import CarGenerator
 from enemy_generator import EnemyGenerator
-from board import Board
-from road import Road
-from bar import *
 
 class Game():
     def __init__(self, level):
@@ -16,6 +16,7 @@ class Game():
         self.start_time = pygame.time.get_ticks()
         self.time = self.level * 10000
         self.hp = max(self.level, 5)
+        self.score = 0
 
         self.road = Road()
         self.board = Board()
@@ -46,9 +47,9 @@ class Game():
 
     # 檢查遊戲狀態
     def check_for_state(self):
-        if self.hp == 0:
+        if self.hp <= 0:
             self.game_over = True
-        if pygame.time.get_ticks() - self.start_time >= self.time and len(self.enemy_group) == 0:
+        elif pygame.time.get_ticks() - self.start_time >= self.time and len(self.enemy_group) == 0:
             self.game_pass = True
 
     # 檢查碰撞
@@ -57,6 +58,7 @@ class Game():
         for enemy in self.enemy_group:
             for car in self.car_group:
                 if pygame.sprite.collide_rect(enemy, car) and car.color == enemy.color:
+                    self.score += 1
                     enemy.kill()
                     car.capacity -= 1
                     if (car.capacity == 0):
