@@ -42,7 +42,7 @@ class GameManager:
     def draw(self, surface):
         if self.state == State.MENU:
             self.start_page.draw(surface)
-            self.draw_text(surface, "Press S to Start", 24, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 110)
+            self.draw_text(surface, "Press S to Start", 24, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100)
             return
         
         self.game.draw(surface)
