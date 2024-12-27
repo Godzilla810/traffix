@@ -27,22 +27,20 @@ while running:
         running = False
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_s] and game_manager.state == State.MENU:
-        game_manager.start_game()
-        game_manager.state = State.GAME
-    if keys[pygame.K_r] and game_manager.game.game_over == True:
-        game_manager.restart_game()
-    if keys[pygame.K_n] and game_manager.game.game_pass == True:
-        game_manager.start_game(game_manager.level + 1)
+    if any(keys):
+        match game_manager.state:
+            case State.MENU:
+                game_manager.start_game()
+                game_manager.state = State.IN_GAME
+            case State.GAME_PASS:
+                game_manager.start_game(game_manager.level + 1)
+                game_manager.state = State.IN_GAME
+            case State.GAME_OVER:
+                game_manager.restart_game()
+                game_manager.state = State.IN_GAME
 
-    # Update
-    if game_manager.run:
-        game_manager.update()
-
-    # Drawing
-    if game_manager.run or game_manager.wait:
-        game_manager.draw(screen)
+    game_manager.update()
+    game_manager.draw(screen)
     
-
     pygame.display.update()
     clock.tick(FPS)
