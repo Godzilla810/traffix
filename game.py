@@ -30,7 +30,12 @@ class Game():
 
         self.gem_manager = GemManager(self.gem_group)
         self.car_generator = CarGenerator(self.car_group)
-        self.enemy_generator = EnemyGenerator(self.time, max(1500 - int(self.level ** 1.5) * 100, 250), self.enemy_group)
+        self.enemy_generator = EnemyGenerator(self.time, max(1500 - self.level * 100, 500), self.enemy_group)
+
+        self.can_process = False
+        self.is_waiting = False
+        self.wait_time = 0
+        self.wait_delay = 800
 
     def update(self):
         self.progress.update(self.time - pygame.time.get_ticks() + self.start_time)
@@ -44,6 +49,7 @@ class Game():
         self.check_for_state()
         self.check_for_collisions()
         self.check_input()
+        self.try_process_matches()
 
     # 檢查遊戲狀態
     def check_for_state(self):
@@ -80,11 +86,30 @@ class Game():
                 self.gem_manager.dragging(event.pos)
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.gem_manager.drag_end()
-                matches = self.gem_manager.check_matches()
-                while matches:
-                    self.gem_manager.process_matches(matches)
-                    self.car_generator.generate_car(matches)
-                    matches = self.gem_manager.check_matches()
+                self.can_process = True
+
+    # 需要時處理配對
+    def try_process_matches(self):
+        if not self.can_process:
+            return
+        if self.is_waiting:
+            self.count_down()
+            return
+        matches = self.gem_manager.check_matches()
+        if not matches:
+            self.can_process = False
+            return
+        self.gem_manager.process_matches(matches)
+        self.car_generator.generate_car(matches)
+        self.is_waiting = True
+        self.wait_time = pygame.time.get_ticks()
+    
+    # 等待生成珠子與車子的動畫
+    def count_down(self):
+        now = pygame.time.get_ticks()
+        if now - self.wait_time > self.wait_delay:
+            self.is_waiting = False
+
             
     def draw(self, screen):
         self.road.draw(screen)
