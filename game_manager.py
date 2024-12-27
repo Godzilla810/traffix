@@ -9,15 +9,23 @@ class State(Enum):
     MENU = auto()
     GAME = auto()
 
+
 class GameManager:
     def __init__(self):
         self.wait = False
         self.run = True
         self.level = 1
         self.score = 0
-        self.state = State.MENU
+        self.state : State = State.MENU
         self.start_page = BackGround("Image/background.jpg")
         self.game = None
+
+        pygame.mixer.music.load("Sound/BGM/Run-Amok(chosic.com).mp3")
+        pygame.mixer.music.play(-1)
+        
+    def restart_game(self):
+        pygame.mixer.music.play(-1)
+        self.start_game()
 
     def start_game(self, level = 1):
         self.wait = False
@@ -33,8 +41,13 @@ class GameManager:
         pass
 
     def check_for_state(self):
-        if (self.game.game_pass == True or self.game.game_over == True):
+        if (self.game.game_pass == True):
+            pygame.mixer.stop()
             self.score += self.game.score
+            self.run = False
+            self.wait = True
+        elif (self.game.game_over == True):
+            pygame.mixer.music.stop()
             self.run = False
             self.wait = True
         pass
@@ -50,7 +63,7 @@ class GameManager:
 
         if (self.game.game_over == True):
             self.draw_text(surface, "GAME OVER!!", 40, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 85)
-            self.draw_text(surface, f"YOUR SCORE:{self.score}", 28, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 10)
+            self.draw_text(surface, f"YOUR SCORE: {self.score}", 28, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 10)
             self.draw_text(surface, "Press R to Restart", 24, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50)
         
         if (self.game.game_pass == True):

@@ -21,6 +21,7 @@ while running:
     # Checking for events
     # 這裡要改成peek，不然會跟主邏輯衝突
     if pygame.event.peek(pygame.QUIT):
+        pygame.mixer.quit()
         pygame.quit()
         sys.exit()
         running = False
@@ -30,7 +31,7 @@ while running:
         game_manager.start_game()
         game_manager.state = State.GAME
     if keys[pygame.K_r] and game_manager.game.game_over == True:
-        game_manager.start_game()
+        game_manager.restart_game()
     if keys[pygame.K_n] and game_manager.game.game_pass == True:
         game_manager.start_game(game_manager.level + 1)
 
