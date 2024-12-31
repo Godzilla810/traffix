@@ -26,12 +26,13 @@ class GameManager:
         pygame.mixer.music.play(-1)
 
     def restart_game(self):
+        self.score = 0
         self.play_bgm()
         self.start_game()
 
     def start_game(self, level = 1):
         self.level = level
-        self.game = Game(level)
+        self.game = Game(self.level)
 
     def update(self):
         match self.state:
@@ -46,11 +47,12 @@ class GameManager:
     def check_for_state(self):
         if (self.game.game_pass == True):
             # 停止音效
-            pygame.mixer.stop()
             self.score += self.game.score
+            pygame.mixer.stop()
             self.state = State.GAME_PASS
         elif (self.game.game_over == True):
             # 關掉所有聲音
+            self.score += self.game.score
             pygame.mixer.stop()
             pygame.mixer.music.stop()
             self.state = State.GAME_OVER
@@ -67,10 +69,12 @@ class GameManager:
                 self.draw_text(surface, f"LEVEL{self.level}", 24, WHITE, False, SCREEN_WIDTH - 50, 20)
                 return
             case State.GAME_PASS:
+                self.game.draw(surface)
                 self.draw_text(surface, f"LEVEL{self.level}  PASS!!", 40, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 80)
                 self.draw_text(surface, "Press Any Key to Next Level", 24, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 25)
                 return
             case State.GAME_OVER:
+                self.game.draw(surface)
                 self.draw_text(surface, "GAME OVER!!", 40, WHITE, True, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 85)
                 self.draw_text(surface, f"YOUR SCORE: {self.score}", 28, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 10)
                 self.draw_text(surface, "Press Any Key to Restart", 24, WHITE, False, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50)

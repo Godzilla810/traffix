@@ -30,7 +30,7 @@ class Game():
 
         self.gem_manager = GemManager(self.gem_group)
         self.car_generator = CarGenerator(self.car_group)
-        self.enemy_generator = EnemyGenerator(self.time, max(1500 - self.level * 100, 500), self.enemy_group)
+        self.enemy_generator = EnemyGenerator(self.time, max(1500 - self.level * 100, 500), (level // 5) + 1, self.enemy_group)
 
         self.can_process = False
         self.is_waiting = False
