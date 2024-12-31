@@ -10,6 +10,9 @@ pygame.font.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Traffix")
 
+cursor_image = pygame.image.load("Image/drag.png").convert_alpha()
+pygame.mouse.set_visible(False)
+
 clock = pygame.time.Clock()
 
 game_manager = GameManager()
@@ -42,5 +45,6 @@ while running:
     game_manager.update()
     game_manager.draw(screen)
     
+    screen.blit(cursor_image, pygame.mouse.get_pos())
     pygame.display.update()
     clock.tick(FPS)
