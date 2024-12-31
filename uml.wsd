@@ -1,0 +1,166 @@
+@startuml
+' Define SpriteSheet class
+class SpriteSheet {
+    + extract_images(sprite_sheet: Surface, images_num: int): List[Surface]
+}
+
+' Define GameManager class
+class GameManager {
+    - game_over: bool
+    - game_pass: bool
+    - wait: bool
+    - run: bool
+    - level: int
+    - background: BackGround
+    - game: Game
+    + update(): void
+    + draw(surface: Surface): void
+    + draw_text(surface: Surface, text: str, size: int, color: Color, bold: bool, x: int, y: int): void
+    + check_for_state(): void
+    + reset(level: int): void
+}
+
+' Define BackGround class
+class BackGround {
+    - image: Surface
+    + __init__(image: str): void
+    + draw(screen: Surface): void
+}
+
+' Define Bar class
+class Bar {
+    - x: int
+    - y: int
+    - width: int
+    - height: int
+    - base_color: Color
+    - bar_color: Color
+    - current_num: int
+    - total_num: int
+    + __init__(x: int, y: int, width: int, height: int, base_color: Color, bar_color: Color, current_num: int, total_num: int): void
+    + update(num: int): void
+    + draw(surface: Surface): void
+}
+
+' Define Progress class inheriting from Bar
+class Progress {
+    + __init__(time: int, total_time: int): void
+}
+
+' Define HpBar class inheriting from Bar
+class HpBar {
+    + __init__(hp: int, total_hp: int): void
+}
+
+' Define Board class
+class Board {
+    - rect: Rect
+    + __init__(): void
+    + draw(screen: Surface): void
+}
+
+' Define Road class
+class Road {
+    - width: int
+    - lane_count: int
+    - lane_width: int
+    + __init__(): void
+    + draw(screen: Surface): void
+}
+
+' Define Car class
+class Car {
+    - row: int
+    - col: int
+    - capacity: int
+    - image: Surface
+    - rect: Rect
+    + __init__(row: int, col: int, capacity: int): void
+    + set_rect(): void
+    + update(): void
+}
+
+' Define Enemy class
+class Enemy {
+    - col: int
+    - sprite_sheet: Surface
+    - animation: List[Surface]
+    - frame: int
+    - animation_time: int
+    - animation_delay: int
+    - image: Surface
+    - rect: Rect
+    + __init__(col: int): void
+    + set_pos(): void
+    + update(): void
+}
+
+' Define Game class
+class Game {
+    - game_pass: bool
+    - enemy_num: int
+    - hp: int
+    - progress: Progress
+    - hp_bar: HpBar
+    - road: Road
+    - board: Board
+    - gem_group: Group[Gem]
+    - car_group: Group[Car]
+    - enemy_group: Group[Enemy]
+    - enemy_generate_time: int
+    - enemy_generate_delay: int
+    - selected_gem: Gem
+    + __init__(enemy_num: int, enemy_generate_delay: int): void
+    + update(): void
+    + check_for_state(): void
+    + generate_enemy(): void
+    + check_for_collisions(): void
+    + draw(screen: Surface): void
+    + check_input(): void
+    + select_gem(pos: Tuple[int, int]): void
+    + drag_gem(pos: Tuple[int, int]): void
+    + release_gem(): void
+    + check_matches(grid: List[List[str]]): Set[Tuple[int, int]]
+    + process_matches(matches: Set[Tuple[int, int]]): void
+    + refill_grid(): void
+}
+
+' Define Gem class
+class Gem {
+    - row: int
+    - col: int
+    - color_name: str
+    - size: int
+    - image: Surface
+    - rect: Rect
+    + __init__(row: int, col: int, color_name: str): void
+    + get_standard_position(): Tuple[int, int]
+    + set_rect(): void
+    + is_adjacent(target: Gem): bool
+    + swap(target: Gem): void
+    + update(): void
+}
+
+' Define Game Loop (in main game file)
+class GameLoop {
+    - running: bool
+    + main(): void
+}
+
+' Relationships
+GameManager --> Game
+Game --> Road
+Game --> Board
+Game --> Progress
+Game --> HpBar
+Game --> Gem
+Game --> Car
+Game --> Enemy
+Board --> Gem
+GameManager --> BackGround
+Car --> Gem
+Car --> Enemy
+Enemy --> Game
+Car --> Road
+
+@enduml
